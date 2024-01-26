@@ -8,21 +8,24 @@ d3.json(queryUrl).then(function (data) {
 });
 
 function createFeatures(earthquakeData) {
-
+    
+    }
     // Define a function that we want to run once for each feature in the features array.
     // Give each feature a popup that describes the place and time of the earthquake.
     function onEachFeature(feature, layer) {
-      layer.bindPopup(`<h3>${feature.properties.place}</h3><hr><p>${new Date(feature.properties.time)}</p>`);
+    //   layer.bindPopup(`<h3>${feature.properties.place}</h3><hr><p>${new Date(feature.properties.time)}</p>`);
+      layer.bindPopup("Location: " + feature.properties.place + "<br>Magnitude: " + feature.properties.mag);
+    //   + "<br>Depth:" + feature.geometry.coordinates
     }
   
-    function colorChart(depth) {
+   function colorChart(depth) {
         return depth > 90 ? '#840006':
             depth > 70 ? '#DD4132':
                 depth > 50 ? '#E4BF45':
                     depth > 30 ? '#F3E779':
                         depth > 10 ? '#e2e000':
                             '#80c8b9';
-    }
+   }
 
   let earthquakes = L.geoJSON(earthquakeData, {
     onEachFeature: onEachFeature,
@@ -39,7 +42,6 @@ function createFeatures(earthquakeData) {
     });
 
     createMap(earthquakes);
-}
 
 function createMap(earthquakes) {
     // Create the base layers.
