@@ -7,25 +7,23 @@ d3.json(queryUrl).then(function (data) {
   createFeatures(data.features);
 });
 
-function createFeatures(earthquakeData) {
-    
-    }
     // Define a function that we want to run once for each feature in the features array.
     // Give each feature a popup that describes the place and time of the earthquake.
-    function onEachFeature(feature, layer) {
+    function createFeatures(earthquakeData) {
+        function onEachFeature(feature, layer) {
     //   layer.bindPopup(`<h3>${feature.properties.place}</h3><hr><p>${new Date(feature.properties.time)}</p>`);
-      layer.bindPopup("Location: " + feature.properties.place + "<br>Magnitude: " + feature.properties.mag);
-    //   + "<br>Depth:" + feature.geometry.coordinates
+            layer.bindPopup("<h3>Earthquake Location: </h3>" + feature.properties.place + "<br>Magnitude: " + feature.properties.mag + `<p>${new Date(feature.properties.time)}</p>`);
     }
   
-   function colorChart(depth) {
-        return depth > 90 ? '#840006':
-            depth > 70 ? '#DD4132':
-                depth > 50 ? '#E4BF45':
-                    depth > 30 ? '#F3E779':
-                        depth > 10 ? '#e2e000':
-                            '#80c8b9';
-   }
+   
+        function colorChart(depth) {
+            return depth > 90 ? '#840006':
+                depth > 70 ? '#DD4132':
+                    depth > 50 ? '#E4BF45':
+                        depth > 30 ? '#F3E779':
+                            depth > 10 ? '#e2e000':
+                                '#80c8b9';
+        }
 
   let earthquakes = L.geoJSON(earthquakeData, {
     onEachFeature: onEachFeature,
@@ -42,6 +40,7 @@ function createFeatures(earthquakeData) {
     });
 
     createMap(earthquakes);
+}
 
 function createMap(earthquakes) {
     // Create the base layers.
@@ -78,12 +77,12 @@ function createMap(earthquakes) {
   let legend = L.control({ position: "bottomright" });
   legend.onAdd = function() {
     let div = L.DomUtil.create("div", "info legend");
-    let limits = geojson.options.limits;
-    let colors = geojson.options.colors;
+    let limits = geoJSON.options.limits;
+    let colors = geoJSON.options.colors;
     let labels = [];
 
     // Add the minimum and maximum.
-    let legendInfo = "<h1>Earthquakes<br />(ages 6-17)</h1>" +
+    let legendInfo = "<h1>Earthquakes</h1>" +
       "<div class=\"labels\">" +
         "<div class=\"min\">" + limits[0] + "</div>" +
         "<div class=\"max\">" + limits[limits.length - 1] + "</div>" +
