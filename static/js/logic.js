@@ -12,10 +12,9 @@ d3.json(queryUrl).then(function (data) {
     function createFeatures(earthquakeData) {
         function onEachFeature(feature, layer) {
     //   layer.bindPopup(`<h3>${feature.properties.place}</h3><hr><p>${new Date(feature.properties.time)}</p>`);
-            layer.bindPopup("<h3>Earthquake Location: </h3>" + feature.properties.place + "<br>Magnitude: " + feature.properties.mag + `<p>${new Date(feature.properties.time)}</p>`);
+            layer.bindPopup("<h3>Earthquake Details</h3>" + "<br>Location: " + feature.properties.place + "<br>Magnitude: " + feature.properties.mag + `<p>Date: ${new Date(feature.properties.time)}</p>` +"<br> Depth: " + feature.geometry.coordinates);
     }
-  
-   
+     
         function colorChart(depth) {
             return depth > 90 ? '#840006':
                 depth > 70 ? '#DD4132':
@@ -75,28 +74,31 @@ function createMap(earthquakes) {
 
     // Set up the legend.
   let legend = L.control({ position: "bottomright" });
+
   legend.onAdd = function() {
     let div = L.DomUtil.create("div", "info legend");
-    let limits = geoJSON.options.limits;
-    let colors = geoJSON.options.colors;
-    let labels = [];
+    const magnitudes = [0, 1, 2, 3, 4, 5];
+    const colors = [
+        '#840006',
+        '#DD4132',
+        '#E4BF45',
+        '#F3E779',
+        '#e2e000',
+        '#80c8b9'
+    ];
+    // let limits = geoJSON.options.limits;
+    // let colors = geoJSON.options.colors;
+    // let labels = [];
 
     // Add the minimum and maximum.
-    let legendInfo = "<h1>Earthquakes</h1>" +
-      "<div class=\"labels\">" +
-        "<div class=\"min\">" + limits[0] + "</div>" +
-        "<div class=\"max\">" + limits[limits.length - 1] + "</div>" +
-      "</div>";
-
-    div.innerHTML = legendInfo;
-
-    limits.forEach(function(limit, index) {
-      labels.push("<li style=\"background-color: " + colors[index] + "\"></li>");
-    });
-
-    div.innerHTML += "<ul>" + labels.join("") + "</ul>";
-    return div;
-  };
+    for (var i = 0; i < magnitudes.length; i++) {
+        console.log(colors[i]);
+        div.innerHTML +=
+          "<i style='background: " + colors[i] + "'></i> " +
+          magnitudes[i] + (magnitudes[i + 1] ? "&ndash;" + magnitudes[i + 1] + "<br>" : "+");
+        }
+        return div;
+      };
 
   // Adding the legend to the map
   legend.addTo(myMap);
