@@ -12,7 +12,7 @@ d3.json(queryUrl).then(function (data) {
     function createFeatures(earthquakeData) {
         function onEachFeature(feature, layer) {
     //   layer.bindPopup(`<h3>${feature.properties.place}</h3><hr><p>${new Date(feature.properties.time)}</p>`);
-            layer.bindPopup("<h3>Earthquake Details</h3>" + "<br>Location: " + feature.properties.place + "<br>Magnitude: " + feature.properties.mag + `<p>Date: ${new Date(feature.properties.time)}</p>` +"<br> Depth: " + feature.geometry.coordinates);
+            layer.bindPopup("<h3>Earthquake Details</h3>" + "<br>Location: " + feature.properties.place + "<br>Magnitude: " + feature.properties.mag + `<p>Date: ${new Date(feature.properties.time)}</p>` +"<br> Depth: " + feature.geometry.coordinates[2]+ "km");
     }
      
         function colorChart(depth) {
@@ -77,7 +77,9 @@ function createMap(earthquakes) {
 
   legend.onAdd = function() {
     let div = L.DomUtil.create("div", "info legend");
-    const magnitudes = [0, 1, 2, 3, 4, 5];
+    var title = ('<h4>Earthquake Depths in km</h4>');
+    var ground = [-10, 10, 30, 50, 70, 90];
+   
     const colors = [
         '#840006',
         '#DD4132',
@@ -89,13 +91,13 @@ function createMap(earthquakes) {
     // let limits = geoJSON.options.limits;
     // let colors = geoJSON.options.colors;
     // let labels = [];
-
+    div.innerHTML = title;
     // Add the minimum and maximum.
-    for (var i = 0; i < magnitudes.length; i++) {
+    for (var i = 0; i < ground.length; i++) {
         console.log(colors[i]);
         div.innerHTML +=
           "<i style='background: " + colors[i] + "'></i> " +
-          magnitudes[i] + (magnitudes[i + 1] ? "&ndash;" + magnitudes[i + 1] + "<br>" : "+");
+          ground[i] + (ground[i + 1] ? "&ndash;" + ground[i + 1] + "<br>" : "+");
         }
         return div;
       };
