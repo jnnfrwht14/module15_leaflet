@@ -16,13 +16,14 @@ d3.json(queryUrl).then(function (data) {
      
         function colorChart(depth) {
             return depth > 90 ? '#DC3220':
-                depth > 70 ? '#DD4132':
+                depth > 70 ? '#D07F36':
                     depth > 50 ? '#E4BF45':
                         depth > 30 ? '#FEFE62':
-                            depth > 10 ? '#e2e000':
-                                '#80c8b9';
+                            depth > 10 ? '#84c880':
+                                '#bcb1f2';
         }
 
+          
   let earthquakes = L.geoJSON(earthquakeData, {
     onEachFeature: onEachFeature,
     pointToLayer: function(feature, latlng) {
@@ -76,30 +77,34 @@ function createMap(earthquakes) {
 
   legend.onAdd = function() {
     var div = L.DomUtil.create("div", "legend");
-    var title = ('<h4>Earthquake Depths in km</h4>');
-    div.innerHTML = title;
-    var ground = [-10, 10, 30, 50, 70, 90];
+    let ground = [-10, 10, 30, 50, 70, 90];
+    let labels = [];
    
-    const colorChart = [
-        '#DC3220',
-        '#DD4132',
-        '#E4BF45',
+    const colors = [
+        '#bcb1f2',
+        '#84c880',
         '#FEFE62',
-        '#e2e000',
-        '#80c8b9'
+        '#E4BF45',
+        '#D07F36',
+        '#DC3220'
     ];
 
-        // Add the minimum and maximum.
-    for (var i = 0; i < ground.length; i++) {
-        // console.log(colorChart[i]);
-        div.innerHTML += 
-        
-          "<i style='background: " + colorChart[i] + "'></i> " +
-          ground[i] + (ground[i + 1] ? "&ndash;" + ground[i + 1] + "<br>" : "+");
-        }
-        return div;
-      };
+    let legendInfo = "<h3>Earthquake Depth in km</h3>" +
+    "<div class=\"labels\">" +
+      "<div class=\"min\">" + ground[0] + "</div>" +
+      "<div class=\"max\">" + ground[ground.length - 1] + "</div>" +
+    "</div>";
 
-  // Adding the legend to the map
+  div.innerHTML = legendInfo;
+
+  ground.forEach(function(limit, index) {
+    labels.push("<li style=\"background-color: " + colors[index] + "\"></li>");
+  });
+
+  div.innerHTML += "<ul>" + labels.join("") + "</ul>";
+  return div;
+};
+
+// Adding the legend to the map
   legend.addTo(myMap)
 };
