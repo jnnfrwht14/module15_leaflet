@@ -80,7 +80,7 @@ function createMap(earthquakes) {
     div.innerHTML = title;
     var ground = [-10, 10, 30, 50, 70, 90];
    
-    const colors = [
+    const colorChart = [
         '#DC3220',
         '#DD4132',
         '#E4BF45',
@@ -91,15 +91,15 @@ function createMap(earthquakes) {
 
         // Add the minimum and maximum.
     for (var i = 0; i < ground.length; i++) {
-        console.log(colors[i]);
-        div.innerHTML +=
+        // console.log(colorChart[i]);
+        div.innerHTML += 
         
-          "<i style='background: " + colors[i] + "'></i> " +
+          "<i style='background: " + colorChart[i] + "'></i> " +
           ground[i] + (ground[i + 1] ? "&ndash;" + ground[i + 1] + "<br>" : "+");
         }
         return div;
       };
 
   // Adding the legend to the map
-  legend.addTo(myMap);
+  legend.addTo(myMap)
 };
