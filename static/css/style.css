@@ -14,14 +14,14 @@ html {
 }
 
 .legend {
-  color: #555;
-  padding: 6px 8px;
+  color: #004D40;
+  padding: 7px 7px;
   font: 12px Arial, Helvetica, sans-serif;
   font-weight: bold;
   background: white;
   background: rgba(255,255,255,0.8);
   box-shadow: 0 0 15px rgba(0,0,0,0.2);
-  border-radius: 5px;
+  border-radius: 7px;
 }
 .legend ul {
   list-style-type: none;
@@ -36,7 +36,7 @@ html {
 }
 .legend .min {
   float: left;
-  padding-bottom: 5px;
+  padding-bottom: 7px;
 }
 .legend .max {
   float: right;

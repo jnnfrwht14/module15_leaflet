@@ -11,15 +11,14 @@ d3.json(queryUrl).then(function (data) {
     // Give each feature a popup that describes the place and time of the earthquake.
     function createFeatures(earthquakeData) {
         function onEachFeature(feature, layer) {
-    //   layer.bindPopup(`<h3>${feature.properties.place}</h3><hr><p>${new Date(feature.properties.time)}</p>`);
             layer.bindPopup("<h3>Earthquake Details</h3>" + "<br>Location: " + feature.properties.place + "<br>Magnitude: " + feature.properties.mag + `<p>Date: ${new Date(feature.properties.time)}</p>` +"<br> Depth: " + feature.geometry.coordinates[2]+ "km");
     }
      
         function colorChart(depth) {
-            return depth > 90 ? '#840006':
+            return depth > 90 ? '#DC3220':
                 depth > 70 ? '#DD4132':
                     depth > 50 ? '#E4BF45':
-                        depth > 30 ? '#F3E779':
+                        depth > 30 ? '#FEFE62':
                             depth > 10 ? '#e2e000':
                                 '#80c8b9';
         }
@@ -76,26 +75,25 @@ function createMap(earthquakes) {
   let legend = L.control({ position: "bottomright" });
 
   legend.onAdd = function() {
-    let div = L.DomUtil.create("div", "info legend");
+    var div = L.DomUtil.create("div", "legend");
     var title = ('<h4>Earthquake Depths in km</h4>');
+    div.innerHTML = title;
     var ground = [-10, 10, 30, 50, 70, 90];
    
     const colors = [
-        '#840006',
+        '#DC3220',
         '#DD4132',
         '#E4BF45',
-        '#F3E779',
+        '#FEFE62',
         '#e2e000',
         '#80c8b9'
     ];
-    // let limits = geoJSON.options.limits;
-    // let colors = geoJSON.options.colors;
-    // let labels = [];
-    div.innerHTML = title;
-    // Add the minimum and maximum.
+
+        // Add the minimum and maximum.
     for (var i = 0; i < ground.length; i++) {
         console.log(colors[i]);
         div.innerHTML +=
+        
           "<i style='background: " + colors[i] + "'></i> " +
           ground[i] + (ground[i + 1] ? "&ndash;" + ground[i + 1] + "<br>" : "+");
         }
